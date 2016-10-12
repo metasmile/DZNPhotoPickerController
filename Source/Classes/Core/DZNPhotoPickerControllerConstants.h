@@ -8,10 +8,18 @@
 //  Licence: MIT-Licence
 //
 
-extern NSString *const DZNPhotoPickerControllerCropMode;              // An NSString (i.e. square, circular)
-extern NSString *const DZNPhotoPickerControllerCropZoomScale;         // An NSString (from 1.0 to maximum zoom scale, 2.0f)
-extern NSString *const DZNPhotoPickerControllerPhotoMetadata;         // An NSDictionary containing metadata from a captured photo
+// An NSString (i.e. square, circular)
+extern NSString *const DZNPhotoPickerControllerCropMode;
+// An NSString (from 1.0 to maximum zoom scale, 2.0f)
+extern NSString *const DZNPhotoPickerControllerCropZoomScale;
+// An NSInteger, data length received.
+extern NSString *const DZNPhotoPickerControllerDownloadProgressReceived;
+// An NSInteger, data length total(expected).
+extern NSString *const DZNPhotoPickerControllerDownloadProgressTotal;
+// An NSDictionary containing metadata from a captured photo
+extern NSString *const DZNPhotoPickerControllerPhotoMetadata;
 
+extern NSString *const DZNPhotoPickerDownloadProgressNotification;    // The notification key used when downloading from remote.
 extern NSString *const DZNPhotoPickerDidSelectNotification;           // The notification key used when selecting a photo, and finalization will start.
 extern NSString *const DZNPhotoPickerDidFinishPickingNotification;    // The notification key used when picking a photo finished.
 extern NSString *const DZNPhotoPickerDidFailPickingNotification;      // The notification key used when picking a photo failed.

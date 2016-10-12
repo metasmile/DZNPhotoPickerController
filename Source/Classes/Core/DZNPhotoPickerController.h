@@ -21,6 +21,7 @@
  */
 @interface DZNPhotoPickerController : UINavigationController
 
+typedef void (^DZNPhotoPickerControllerDownlaodProgressBlock)(DZNPhotoPickerController *picker, NSDictionary *info);
 typedef void (^DZNPhotoPickerControllerSelectionBlock)(DZNPhotoPickerController *picker, NSDictionary *info);
 typedef void (^DZNPhotoPickerControllerFinalizationBlock)(DZNPhotoPickerController *picker, NSDictionary *info);
 typedef void (^DZNPhotoPickerControllerFailureBlock)(DZNPhotoPickerController *picker, NSError *error);
@@ -44,6 +45,8 @@ typedef void (^DZNPhotoPickerControllerCancellationBlock)(DZNPhotoPickerControll
 @property (nonatomic) DZNPhotoPickerControllerCCLicenses supportedLicenses;
 /** YES if the picker should download the full size photo after selecting its thumbnail, when allowsEditing is NO. Default is YES. */
 @property (nonatomic) BOOL enablePhotoDownload;
+/** A block to be executed whenever the image is downloading in progress. This performs only when configured enablePhotoDownload == YES. Use this block to replace delegate method photoPickerController:didSelectPhotoWithInfo: */
+@property (nonatomic, strong) DZNPhotoPickerControllerDownlaodProgressBlock downloadProgressBlock;
 /** A block to be executed whenever the user selects a new photo in collection view(album view). Use this block to replace delegate method photoPickerController:didSelectPhotoWithInfo: */
 @property (nonatomic, strong) DZNPhotoPickerControllerSelectionBlock selectionBlock;
 /** A block to be executed whenever the user pickes a new photo, and internal processing was finished. Use this block to replace delegate method photoPickerController:didFinishPickingPhotoWithInfo: */
@@ -92,6 +95,14 @@ typedef void (^DZNPhotoPickerControllerCancellationBlock)(DZNPhotoPickerControll
  */
 @protocol DZNPhotoPickerControllerDelegate <NSObject>
 @required
+
+/**
+ Tells the delegate that selected photo is downloading. This performs only when configured enablePhotoDownload == YES
+
+ @param picker The controller object managing the photo search picker interface.
+ @param userInfo A dictionary containing the original image. The dictionary also contains some information of selected photo. For exiting keys @see DZNPhotoPickerControllerConstants.h.
+ */
+- (void)photoPickerController:(DZNPhotoPickerController *)picker downloadProgressPhotoWithInfo:(NSDictionary *)userInfo;
 
 /**
  Tells the delegate that the user selected a new photo in album view.

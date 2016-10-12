@@ -12,8 +12,11 @@
 
 NSString *const DZNPhotoPickerControllerCropMode =              @"com.dzn.photoPicker.cropMode";
 NSString *const DZNPhotoPickerControllerCropZoomScale =         @"com.dzn.photoPicker.cropZoomScale";
+NSString *const DZNPhotoPickerControllerDownloadProgressReceived = @"com.dzn.photoPicker.downloadprogress.receivedbytes";
+NSString *const DZNPhotoPickerControllerDownloadProgressTotal = @"com.dzn.photoPicker.downloadprogress.totalbytes";
 NSString *const DZNPhotoPickerControllerPhotoMetadata =         @"com.dzn.photoPicker.photoMetadata";
 
+NSString *const DZNPhotoPickerDownloadProgressNotification =    @"com.dzn.photoPicker.downloadProgressNotification";
 NSString *const DZNPhotoPickerDidSelectNotification =           @"com.dzn.photoPicker.didSelectNotification";
 NSString *const DZNPhotoPickerDidFinishPickingNotification =    @"com.dzn.photoPicker.didFinishPickingNotification";
 NSString *const DZNPhotoPickerDidFailPickingNotification =      @"com.dzn.photoPicker.didFinishPickingWithErrorNotification";

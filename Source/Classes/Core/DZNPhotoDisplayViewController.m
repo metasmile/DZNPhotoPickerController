@@ -464,7 +464,13 @@ static NSUInteger kDZNPhotoDisplayMinimumColumnCount = 4.0;
             [controller.imageView sd_setImageWithPreviousCachedImageWithURL:metadata.sourceURL
                                                            placeholderImage:nil
                                                                     options:SDWebImageCacheMemoryOnly|SDWebImageProgressiveDownload|SDWebImageRetryFailed
-                                                                   progress:NULL
+                                                                   progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+
+                                                                       [metadata postMetadataUpdate:@{
+                                                                               DZNPhotoPickerControllerDownloadProgressReceived:@(receivedSize),
+                                                                               DZNPhotoPickerControllerDownloadProgressTotal:@(expectedSize)
+                                                                       } notification:DZNPhotoPickerDownloadProgressNotification];
+                                                                   }
                                                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                                                       if (!error) {
                                                                           weakController.rightButton.enabled = YES;
@@ -483,7 +489,12 @@ static NSUInteger kDZNPhotoDisplayMinimumColumnCount = 4.0;
         
         [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:metadata.sourceURL
                                                               options:SDWebImageCacheMemoryOnly|SDWebImageRetryFailed
-                                                             progress:NULL
+                                                             progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                                                 [metadata postMetadataUpdate:@{
+                                                                         DZNPhotoPickerControllerDownloadProgressReceived:@(receivedSize),
+                                                                         DZNPhotoPickerControllerDownloadProgressTotal:@(expectedSize)
+                                                                 } notification:DZNPhotoPickerDownloadProgressNotification];
+                                                             }
                                                             completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished){
                                                                 if (image) {
                                                                     NSDictionary *userInfo = @{UIImagePickerControllerOriginalImage: image};

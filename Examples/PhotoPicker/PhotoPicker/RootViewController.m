@@ -8,6 +8,7 @@
 
 #import "RootViewController.h"
 #import "Private.h"
+#import "DZNPhotoPickerControllerConstants.h"
 
 #import <DZNPhotoPickerController/DZNPhotoPickerController.h>
 #import <DZNPhotoPickerController/UIImagePickerController+Edit.h>
@@ -131,8 +132,8 @@
     DZNPhotoPickerController *picker = [DZNPhotoPickerController new];
     picker.supportedServices =  DZNPhotoPickerControllerService500px | DZNPhotoPickerControllerServiceFlickr | DZNPhotoPickerControllerServiceGiphy;
     picker.allowsEditing = NO;
-    picker.cropMode = DZNPhotoEditorViewControllerCropModeCircular;
-//    picker.cropMode = DZNPhotoEditorViewControllerCropModeNone;
+//    picker.cropMode = DZNPhotoEditorViewControllerCropModeCircular;
+    picker.cropMode = DZNPhotoEditorViewControllerCropModeNone;
     picker.initialSearchTerm = @"Chile";
     picker.enablePhotoDownload = YES;
     picker.allowAutoCompletedSearch = YES;
@@ -141,11 +142,13 @@
 
     [picker setSelectionBlock:^(DZNPhotoPickerController *picker, NSDictionary *info) {
         NSLog(@"selected: %@",info);
+    }];
 
-        if(picker.cropMode == DZNPhotoEditorViewControllerCropModeNone){
-            //DZNPhotoPickerController did early dismiss but processing still does proceeding
-            [picker popToViewController:self animated:YES];
-        }
+    [picker setDownloadProgressBlock:^(DZNPhotoPickerController *picker, NSDictionary *info) {
+        NSLog(@"progress: %@ / %@"
+                ,info[DZNPhotoPickerControllerDownloadProgressReceived]
+                ,info[DZNPhotoPickerControllerDownloadProgressTotal]
+        );
     }];
 
     [picker setFinalizationBlock:^(DZNPhotoPickerController *picker, NSDictionary *info){
