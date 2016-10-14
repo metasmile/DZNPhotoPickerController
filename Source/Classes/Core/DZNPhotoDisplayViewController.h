@@ -38,6 +38,11 @@
 - (instancetype)initWithPreferredContentSize:(CGSize)size;
 
 /**
+ Select thumbnail by index of metadataList
+ */
+- (void)selectedThumbnailAtIndex:(NSUInteger)index;
+
+/**
  Stops any loading HTTP request.
  */
 - (void)stopLoadingRequest;

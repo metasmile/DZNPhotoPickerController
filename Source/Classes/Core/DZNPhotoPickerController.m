@@ -56,10 +56,12 @@ static DZNPhotoPickerControllerCancellationBlock _cancellationBlock;
 {
     [super viewWillAppear:animated];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(metadataListFetched:) name:DZNPhotoPickerDidFetchPhotoListNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProgressPhoto:) name:DZNPhotoPickerDownloadProgressNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSelectPhoto:) name:DZNPhotoPickerDidSelectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishPickingPhoto:) name:DZNPhotoPickerDidFinishPickingNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFailPickingPhoto:) name:DZNPhotoPickerDidFailPickingNotification object:nil];
+
     
     if (!self.isEditModeEnabled) {
         [self showPhotoDisplayController];
@@ -83,6 +85,12 @@ static DZNPhotoPickerControllerCancellationBlock _cancellationBlock;
 
 
 #pragma mark - Setter methods
+- (void)selectedThumbnailAtIndex:(NSUInteger)index;{
+    DZNPhotoDisplayViewController *controller = [self.viewControllers firstObject];
+    if ([controller respondsToSelector:@selector(selectedThumbnailAtIndex:)]) {
+        [controller selectedThumbnailAtIndex:index];
+    }
+}
 
 - (void)setSupportedServices:(DZNPhotoPickerControllerServices)services
 {
@@ -134,6 +142,13 @@ static DZNPhotoPickerControllerCancellationBlock _cancellationBlock;
     }
     
     [self setViewControllers:@[controller]];
+}
+
+- (void)metadataListFetched:(NSNotification *)notification
+{
+    if (self.metadataFetchedBlock) {
+        self.metadataFetchedBlock(self, notification.userInfo[DZNPhotoPickerControllerFetchedPhotoMetadataList]);
+    }
 }
 
 /* Called by a notification whenever the user picks a photo. */
@@ -223,6 +238,7 @@ static DZNPhotoPickerControllerCancellationBlock _cancellationBlock;
 - (void)dealloc
 {
     _initialSearchTerm = nil;
+    _metadataFetchedBlock = nil;
     _downloadProgressBlock = nil;
     _selectionBlock = nil;
     _finalizationBlock = nil;

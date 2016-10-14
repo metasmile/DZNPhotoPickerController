@@ -141,6 +141,12 @@
     picker.infiniteScrollingEnabled = YES;
     picker.title = @"Search Photos";
 
+    [picker setMetadataFetchedBlock:^(DZNPhotoPickerController *picker, NSArray *metadata) {
+        NSLog(@"metadata fetched: %@",metadata);
+
+//        [picker selectedThumbnailAtIndex:0];
+    }];
+
     [picker setSelectionBlock:^(DZNPhotoPickerController *picker, NSDictionary *info) {
         NSLog(@"selected: %@ %d",info, picker.selectedService);
     }];

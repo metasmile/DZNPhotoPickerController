@@ -367,6 +367,8 @@ static NSUInteger kDZNPhotoDisplayMinimumColumnCount = 4.0;
     self.currentPage++;
     
     [self.collectionView reloadData];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:DZNPhotoPickerDidFetchPhotoListNotification object:nil userInfo:@{DZNPhotoPickerControllerFetchedPhotoMetadataList:[self.metadataList copy]}];
 }
 
 /* Toggles the activity indicators on the status bar & footer view. */
@@ -430,8 +432,24 @@ static NSUInteger kDZNPhotoDisplayMinimumColumnCount = 4.0;
  - Push into the edit controller for cropping
  - Download the full size photo and dismiss the controller
  */
+
+- (void)selectedThumbnailAtIndex:(NSUInteger)index{
+    if(index < [self metadataList].count){
+        [self selectedMetadata:[self metadataList][index]];
+    }
+}
+
+- (void)selectedMetadataAtIndexPath:(NSIndexPath *)indexPath{
+    DZNPhotoMetadata *metada = [self metadataAtIndexPath:indexPath];
+    [self selectedMetadata:metada];
+}
+
 - (void)selectedMetadata:(DZNPhotoMetadata *)metadata
 {
+    if(!metadata){
+        return;
+    }
+
     [metadata postMetadataUpdate:nil notification:DZNPhotoPickerDidSelectNotification];
 
     if (!self.navigationController.enablePhotoDownload) {
@@ -736,9 +754,8 @@ static NSUInteger kDZNPhotoDisplayMinimumColumnCount = 4.0;
     if ([self.searchBar isFirstResponder]) {
         [self.searchBar resignFirstResponder];
     }
-    
-    DZNPhotoMetadata *metada = [self metadataAtIndexPath:indexPath];
-    [self selectedMetadata:metada];
+
+    [self selectedMetadataAtIndexPath:indexPath];
     
     [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }

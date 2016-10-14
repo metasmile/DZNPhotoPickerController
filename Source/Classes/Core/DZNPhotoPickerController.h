@@ -12,6 +12,7 @@
 #import "DZNPhotoEditorViewController.h"
 
 @protocol DZNPhotoPickerControllerDelegate;
+@class DZNPhotoMetadata;
 
 /** 
  A photo search/picker for iOS 7, similar to UIImagePickerControl, providing photos from popular photography like 500px, Flickr and many others.
@@ -26,6 +27,7 @@ typedef void (^DZNPhotoPickerControllerSelectionBlock)(DZNPhotoPickerController 
 typedef void (^DZNPhotoPickerControllerFinalizationBlock)(DZNPhotoPickerController *picker, NSDictionary *info);
 typedef void (^DZNPhotoPickerControllerFailureBlock)(DZNPhotoPickerController *picker, NSError *error);
 typedef void (^DZNPhotoPickerControllerCancellationBlock)(DZNPhotoPickerController *picker);
+typedef void (^DZNPhotoPickerControllerPhotoMetadataFetchedBlock)(DZNPhotoPickerController *picker, NSArray<DZNPhotoMetadata *>* metadata);
 
 /** The photo picker's delegate object. */
 @property (nonatomic, assign) id <UINavigationControllerDelegate, DZNPhotoPickerControllerDelegate> delegate;
@@ -55,6 +57,8 @@ typedef void (^DZNPhotoPickerControllerCancellationBlock)(DZNPhotoPickerControll
 @property (nonatomic, strong) DZNPhotoPickerControllerFailureBlock failureBlock;
 /** A block to be executed whenever the user cancels the pick operation. Use this block to replace delegate method photoPickerControllerDidCancel: */
 @property (nonatomic, strong) DZNPhotoPickerControllerCancellationBlock cancellationBlock;
+/** A block to be executed whenever the metadata(photos) list fetched completely. A Dictionary with a key 'DZNPhotoPickerControllerFetchedPhotoMetadataList' that containing parsed object list */
+@property (nonatomic, strong) DZNPhotoPickerControllerPhotoMetadataFetchedBlock metadataFetchedBlock;
 /** YES if auto-completion search is available while the user is typing on the search bar. This data uses Flickr's tag search API. Default is YES. */
 @property (nonatomic, assign) BOOL allowAutoCompletedSearch;
 /** YES if images should load automatically once reaching the bottom of the scroll view. Default is NO. */
@@ -68,6 +72,8 @@ typedef void (^DZNPhotoPickerControllerCancellationBlock)(DZNPhotoPickerControll
  @return An array whose elements identify the available media types for the supported services.
  */
 + (NSArray *)availableMediaTypesForSupportedServices:(DZNPhotoPickerControllerServices)services;
+
+- (void)selectedThumbnailAtIndex:(NSUInteger)index;
 
 /**
  Registers a FREE (or demo) specified photo service.

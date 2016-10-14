@@ -16,9 +16,12 @@ extern NSString *const DZNPhotoPickerControllerCropZoomScale;
 extern NSString *const DZNPhotoPickerControllerDownloadProgressReceived;
 // An NSInteger, data length total(expected).
 extern NSString *const DZNPhotoPickerControllerDownloadProgressTotal;
-// An NSDictionary containing metadata from a captured photo
+// An NSDictionary, containing metadata from a captured photo
 extern NSString *const DZNPhotoPickerControllerPhotoMetadata;
+// An NSArray, list of currently fetched metadatas. (Element type: DZNPhotoMetadata)
+extern NSString *const DZNPhotoPickerControllerFetchedPhotoMetadataList;
 
+extern NSString *const DZNPhotoPickerDidFetchPhotoListNotification;    // The notification key used when fetched complete photos list. An userInfo object as a key 'DZNPhotoPickerControllerPhotoMetadataFetchedList'
 extern NSString *const DZNPhotoPickerDownloadProgressNotification;    // The notification key used when downloading from remote.
 extern NSString *const DZNPhotoPickerDidSelectNotification;           // The notification key used when selecting a photo, and finalization will start.
 extern NSString *const DZNPhotoPickerDidFinishPickingNotification;    // The notification key used when picking a photo finished.
