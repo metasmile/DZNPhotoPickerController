@@ -24,6 +24,10 @@
 @property (nonatomic, readonly) NSUInteger rowCount;
 /** YES if the controller started a request and loading content. */
 @property (nonatomic, readonly, getter = isLoading) BOOL loading;
+/** Current selected service flag that had been used in searchbar. */
+@property (nonatomic, readonly) DZNPhotoPickerControllerServices selectedService;
+/** Previous selected service flag that had been used in searchbar. */
+@property (nonatomic, readonly) DZNPhotoPickerControllerServices previousService;
 
 /**
  Initializes and returns a newly created photo display controller.

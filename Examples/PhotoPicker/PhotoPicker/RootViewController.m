@@ -130,7 +130,8 @@
 - (void)presentPhotoSearch:(id)sender
 {
     DZNPhotoPickerController *picker = [DZNPhotoPickerController new];
-    picker.supportedServices =  DZNPhotoPickerControllerService500px | DZNPhotoPickerControllerServiceFlickr | DZNPhotoPickerControllerServiceGiphy;
+    picker.supportedServices =  DZNPhotoPickerControllerService500px | DZNPhotoPickerControllerServiceFlickr | DZNPhotoPickerControllerServiceGiphy | DZNPhotoPickerControllerServiceBingImages;
+    picker.selectedService = DZNPhotoPickerControllerServiceGiphy;
     picker.allowsEditing = NO;
 //    picker.cropMode = DZNPhotoEditorViewControllerCropModeCircular;
     picker.cropMode = DZNPhotoEditorViewControllerCropModeNone;
@@ -141,7 +142,7 @@
     picker.title = @"Search Photos";
 
     [picker setSelectionBlock:^(DZNPhotoPickerController *picker, NSDictionary *info) {
-        NSLog(@"selected: %@",info);
+        NSLog(@"selected: %@ %d",info, picker.selectedService);
     }];
 
     [picker setDownloadProgressBlock:^(DZNPhotoPickerController *picker, NSDictionary *info) {

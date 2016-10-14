@@ -98,12 +98,12 @@ static NSUInteger kDZNPhotoDisplayMinimumColumnCount = 4.0;
     _selectedService = DZNFirstPhotoServiceFromPhotoServices(self.navigationController.supportedServices);
     NSAssert((_selectedService > 0), @"DZNPhotoPickerController requieres at least 1 supported photo service provider");
 
-    NSAssert(!self.navigationController.initialSelectedService || self.navigationController.initialSelectedService & self.navigationController.supportedServices, @"Provided 'initialSelectedService' doesn't support in 'supportedServices'");
-    if(self.navigationController.initialSelectedService & self.navigationController.supportedServices){
-        NSArray * initialSelectedService = NSArrayFromServices(self.navigationController.initialSelectedService);
+    NSAssert(!self.navigationController.selectedService || self.navigationController.selectedService & self.navigationController.supportedServices, @"Provided 'initialSelectedService' doesn't support in 'supportedServices'");
+    if(self.navigationController.selectedService & self.navigationController.supportedServices){
+        NSArray * initialSelectedService = NSArrayFromServices(self.navigationController.selectedService);
         NSAssert(initialSelectedService.count==1,@"Only one service flag can be assigned to initialSelectedService.");
         _segmentedControlTitles = [NSSet setWithArray:[initialSelectedService arrayByAddingObjectsFromArray:_segmentedControlTitles]].allObjects;
-        _selectedService = self.navigationController.initialSelectedService;
+        _selectedService = self.navigationController.selectedService;
     }
 
     if(_segmentedControlTitles.count>1){
@@ -197,7 +197,8 @@ static NSUInteger kDZNPhotoDisplayMinimumColumnCount = 4.0;
         searchBar.scopeButtonTitles = self.segmentedControlTitles;
         searchBar.searchBarStyle = UISearchBarStyleProminent;
         searchBar.barStyle = UIBarStyleDefault;
-        searchBar.selectedScopeButtonIndex = 0;
+        NSString * selectedServiceName = NSStringFromService(self.selectedService);
+        searchBar.selectedScopeButtonIndex = !selectedServiceName ? 0 : [searchBar.scopeButtonTitles indexOfObject:selectedServiceName];
         searchBar.clipsToBounds = NO;
         searchBar.delegate = self;
     }
@@ -846,6 +847,7 @@ static NSUInteger kDZNPhotoDisplayMinimumColumnCount = 4.0;
 {
     NSString *name = [searchBar.scopeButtonTitles objectAtIndex:selectedScope];
     _selectedService = DZNPhotoServiceFromName(name);
+    self.navigationController.selectedService = _selectedService;
 }
 
 
