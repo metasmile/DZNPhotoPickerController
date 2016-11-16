@@ -38,7 +38,7 @@ typedef void (^DZNPhotoPickerControllerPhotoMetadataFetchedBlock)(DZNPhotoPicker
 /** YES if the user is allowed to edit a selected image. Default is NO. */
 @property (nonatomic) BOOL allowsEditing;
 /** An optional string term for auto-starting the photo search, as soon as the picker is presented. */
-@property (nonatomic, copy) NSString *initialSearchTerm;
+@property (nonatomic, copy) NSString *searchKeyword;
 /** The cropping mode (ie: Square, Circular or Custom). Default is Square. */
 @property (nonatomic, assign) DZNPhotoEditorViewControllerCropMode cropMode;
 /** The cropping size (i.e. 320,320). When setting this property manually, the cropMode is overidden to DZNPhotoEditorViewControllerCropModeCustom. */

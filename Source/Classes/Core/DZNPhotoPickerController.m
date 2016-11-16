@@ -237,7 +237,7 @@ static DZNPhotoPickerControllerCancellationBlock _cancellationBlock;
 
 - (void)dealloc
 {
-    _initialSearchTerm = nil;
+    _searchKeyword = nil;
     _metadataFetchedBlock = nil;
     _downloadProgressBlock = nil;
     _selectionBlock = nil;

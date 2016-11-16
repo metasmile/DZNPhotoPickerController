@@ -193,7 +193,7 @@ static NSUInteger kDZNPhotoDisplayMinimumColumnCount = 4.0;
 
         UISearchBar *searchBar = _searchController.searchBar;
         searchBar.placeholder = NSLocalizedString(@"Search", nil);
-        searchBar.text = self.navigationController.initialSearchTerm;
+        searchBar.text = self.navigationController.searchKeyword;
         searchBar.scopeButtonTitles = self.segmentedControlTitles;
         searchBar.searchBarStyle = UISearchBarStyleProminent;
         searchBar.barStyle = UIBarStyleDefault;
@@ -607,6 +607,7 @@ static NSUInteger kDZNPhotoDisplayMinimumColumnCount = 4.0;
     [self.collectionView reloadData];
     
     self.searchBar.text = keyword;
+    self.navigationController.searchKeyword = keyword;
 
     [self.selectedServiceClient searchPhotosWithKeyword:keyword
                                                    page:self.currentPage
